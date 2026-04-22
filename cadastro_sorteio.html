@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>YOU Suplementos × Bluefit — Cadastro Sorteio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF6B00;
+    --orange2: #FF8C00;
+    --black: #080808;
+    --dark: #0F0F0F;
+    --card: #161616;
+    --border: #252525;
+    --text: #F2F2F2;
+    --muted: #777;
+    --input-bg: #1A1A1A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    min-height: 100%;
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 60px;
+  }
+
+  /* ── GLOW BG ── */
+  .bg-glow {
+    position: fixed;
+    top: -150px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,107,0,0.15) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER STRIP ── */
+  .header-strip {
+    width: 100%;
+    background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px 24px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.5s ease both;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .logo-you {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 4px;
+    color: var(--orange);
+    text-shadow: 0 0 24px rgba(255,107,0,0.6);
+    line-height: 1;
+  }
+
+  .sep { font-size: 20px; color: #333; font-weight: 300; }
+
+  .logo-bluefit {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 4px;
+    color: #3B9EFF;
+    text-shadow: 0 0 20px rgba(59,158,255,0.4);
+    line-height: 1;
+  }
+
+  .header-strip h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .header-strip h1 span { color: var(--orange); }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ── PRIZE CARD ── */
+  .prize-card {
+    position: relative;
+    z-index: 1;
+    margin: 24px 20px 0;
+    width: calc(100% - 40px);
+    max-width: 480px;
+    background: linear-gradient(135deg, rgba(255,107,0,0.16) 0%, rgba(255,107,0,0.05) 100%);
+    border: 1px solid rgba(255,107,0,0.35);
+    border-radius: 16px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+
+  .prize-icon {
+    font-size: 44px;
+    flex-shrink: 0;
+    line-height: 1;
+    filter: drop-shadow(0 0 12px rgba(255,107,0,0.4));
+  }
+
+  .prize-text {}
+  .prize-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 3px;
+  }
+  .prize-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .prize-desc {
+    font-size: 12px;
+    color: #999;
+    line-height: 1.5;
+  }
+
+  /* ── DISCOUNT BADGE ── */
+  .discount-badge {
+    position: relative;
+    z-index: 1;
+    margin: 12px 20px 0;
+    width: calc(100% - 40px);
+    max-width: 480px;
+    background: rgba(59,158,255,0.08);
+    border: 1px solid rgba(59,158,255,0.22);
+    border-radius: 10px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeUp 0.5s 0.15s ease both;
+  }
+  .discount-badge .pct {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: #3B9EFF;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .discount-badge .info {
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.5;
+  }
+  .discount-badge .info strong { color: #ddd; }
+
+  /* ── FORM ── */
+  .form-wrap {
+    position: relative;
+    z-index: 1;
+    width: calc(100% - 40px);
+    max-width: 480px;
+    margin: 28px 20px 0;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+
+  .form-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .form-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .field {
+    margin-bottom: 18px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  select {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(255,107,0,0.12);
+  }
+  input::placeholder { color: #444; font-weight: 400; }
+
+  select { cursor: pointer; color: #aaa; }
+  select option { background: #1a1a1a; color: #f2f2f2; }
+
+  /* phone field */
+  .phone-wrap {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .ddi {
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: #888;
+    font-size: 15px;
+    padding: 14px 12px;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* consent */
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+    cursor: pointer;
+  }
+  .consent input[type="checkbox"] {
+    appearance: none;
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    background: var(--input-bg);
+    flex-shrink: 0;
+    margin-top: 1px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .consent input[type="checkbox"]:checked {
+    background: var(--orange);
+    border-color: var(--orange);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 7L6 11L12 3' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+  }
+  .consent-text {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.6;
+  }
+  .consent-text strong { color: #999; }
+
+  /* submit button */
+  .btn-submit {
+    width: 100%;
+    background: var(--orange);
+    color: #000;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 12px;
+    padding: 18px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(255,107,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .btn-submit:hover {
+    background: var(--orange2);
+    box-shadow: 0 6px 32px rgba(255,107,0,0.45);
+  }
+  .btn-submit:active { transform: scale(0.98); }
+
+  /* ── SUCCESS STATE ── */
+  .success-wrap {
+    position: relative;
+    z-index: 1;
+    width: calc(100% - 40px);
+    max-width: 480px;
+    margin: 60px 20px 0;
+    text-align: center;
+    animation: popIn 0.4s ease both;
+    display: none;
+  }
+
+  .success-icon {
+    width: 80px; height: 80px;
+    background: rgba(255,107,0,0.15);
+    border: 2px solid var(--orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 40px rgba(255,107,0,0.25);
+  }
+
+  .success-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    letter-spacing: 2px;
+    color: var(--orange);
+    text-shadow: 0 0 24px rgba(255,107,0,0.4);
+    margin-bottom: 10px;
+  }
+
+  .success-msg {
+    font-size: 15px;
+    color: #aaa;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .success-msg strong { color: var(--text); }
+
+  .success-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--orange);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(255,107,0,0.5);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .ticket-card {
+    background: var(--card);
+    border: 1px dashed rgba(255,107,0,0.4);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 24px;
+  }
+
+  .ticket-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  /* ── FOOTER ── */
+  .footer-note {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    font-size: 11px;
+    color: #333;
+    margin-top: 32px;
+    padding: 0 20px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .shake {
+    animation: shake 0.35s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    60% { transform: translateX(6px); }
+    80% { transform: translateX(-3px); }
+  }
+
+  .field.error input, .field.error select {
+    border-color: #ff4444;
+    box-shadow: 0 0 0 3px rgba(255,68,68,0.1);
+  }
+  .error-msg {
+    font-size: 11px;
+    color: #ff5555;
+    margin-top: 5px;
+    display: none;
+  }
+  .field.error .error-msg { display: block; }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- HEADER -->
+<div class="header-strip">
+  <div class="brand-row">
+    <span class="logo-you">YOU</span>
+    <span class="sep">×</span>
+    <span class="logo-bluefit">BLUEFIT</span>
+  </div>
+  <h1>Concorra à<br><span>Cesta de Suplementos</span></h1>
+  <div class="header-sub">Preencha o cadastro e participe do sorteio 🎁</div>
+</div>
+
+<!-- PRIZE -->
+<div class="prize-card">
+  <div class="prize-icon">🎁</div>
+  <div class="prize-text">
+    <div class="prize-label">Prêmio do sorteio</div>
+    <div class="prize-title">Whey Protein<br>+ Pré-Treino</div>
+    <div class="prize-desc">Cesta YOU Suplementos para o aluno sortudo 💪</div>
+  </div>
+</div>
+
+<!-- DISCOUNT -->
+<div class="discount-badge">
+  <div class="pct">10%</div>
+  <div class="info">
+    <strong>Desconto exclusivo Bluefit</strong><br>
+    Todo aluno cadastrado ganha 10% off na loja YOU Suplementos.
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap" id="formWrap">
+  <div class="form-section-label">Seus dados</div>
+
+  <div class="field" id="field-nome">
+    <label for="nome">Nome completo</label>
+    <input type="text" id="nome" name="nome" placeholder="Como você se chama?" autocomplete="name" maxlength="80">
+    <div class="error-msg">Por favor, informe seu nome.</div>
+  </div>
+
+  <div class="field" id="field-whatsapp">
+    <label for="whatsapp">WhatsApp</label>
+    <div class="phone-wrap">
+      <span class="ddi">🇧🇷 +55</span>
+      <input type="tel" id="whatsapp" name="whatsapp" placeholder="(83) 99999-9999" maxlength="15" inputmode="numeric">
+    </div>
+    <div class="error-msg">Informe um WhatsApp válido.</div>
+  </div>
+
+  <div class="field" id="field-objetivo">
+    <label for="objetivo">Qual seu objetivo?</label>
+    <select id="objetivo" name="objetivo">
+      <option value="" disabled selected>Selecione seu objetivo</option>
+      <option value="hipertrofia">💪 Ganho de massa muscular</option>
+      <option value="emagrecimento">🔥 Emagrecimento</option>
+      <option value="definicao">✂️ Definição muscular</option>
+      <option value="energia">⚡ Mais energia e performance</option>
+      <option value="saude">🩺 Saúde geral e bem-estar</option>
+    </select>
+    <div class="error-msg">Selecione um objetivo.</div>
+  </div>
+
+  <label class="consent">
+    <input type="checkbox" id="consent">
+    <span class="consent-text">
+      Autorizo a <strong>YOU Suplementos</strong> a entrar em contato via WhatsApp com ofertas, novidades e informações sobre o sorteio. Seus dados não serão compartilhados com terceiros.
+    </span>
+  </label>
+
+  <button class="btn-submit" id="btnSubmit" onclick="submitForm()">
+    <span>🎯</span>
+    <span>Quero Participar!</span>
+  </button>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-wrap" id="successWrap">
+  <div class="success-icon">🎉</div>
+  <div class="success-title">Cadastrado!</div>
+  <p class="success-msg">
+    Você está na disputa, <strong id="nomeConfirm"></strong>!<br>
+    Boa sorte no sorteio 🤞
+  </p>
+
+  <div class="ticket-card">
+    <div class="ticket-label">Seu número da sorte</div>
+    <span class="success-number" id="ticketNum"></span>
+    <div style="font-size:12px; color:#555;">Guarde esse número!</div>
+  </div>
+
+  <p style="font-size:13px; color:#666; line-height:1.7;">
+    Lembre: você tem <strong style="color:#fff;">10% de desconto</strong> em todos os produtos da YOU Suplementos. Aproveita! 🛍️
+  </p>
+</div>
+
+<div class="footer-note">YOU Suplementos · Jardim Oceania, João Pessoa/PB</div>
+
+<script>
+  // Phone mask
+  document.getElementById('whatsapp').addEventListener('input', function(e) {
+    let v = e.target.value.replace(/\D/g, '').substring(0, 11);
+    if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    else if (v.length > 6) v = v.replace(/(\d{2})(\d{4,5})(\d{0,4})/, '($1) $2-$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+    else if (v.length > 0) v = '(' + v;
+    e.target.value = v;
+  });
+
+  function clearErrors() {
+    ['nome','whatsapp','objetivo'].forEach(f => {
+      document.getElementById('field-' + f).classList.remove('error');
+    });
+  }
+
+  function validateField(id, check) {
+    const field = document.getElementById('field-' + id);
+    if (!check) {
+      field.classList.add('error');
+      return false;
+    }
+    return true;
+  }
+
+  function submitForm() {
+    clearErrors();
+    const nome = document.getElementById('nome').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const objetivo = document.getElementById('objetivo').value;
+    const consent = document.getElementById('consent').checked;
+
+    let valid = true;
+    if (!nome || nome.length < 3) valid = validateField('nome', false) && valid;
+    const digits = whatsapp.replace(/\D/g, '');
+    if (digits.length < 10) valid = validateField('whatsapp', false) && valid;
+    if (!objetivo) valid = validateField('objetivo', false) && valid;
+
+    if (!valid) {
+      document.getElementById('formWrap').classList.add('shake');
+      setTimeout(() => document.getElementById('formWrap').classList.remove('shake'), 400);
+      return;
+    }
+
+    // Save to localStorage as CRM base
+    const record = {
+      id: Date.now(),
+      ticket: Math.floor(1000 + Math.random() * 9000),
+      nome,
+      whatsapp: '+55 ' + whatsapp,
+      objetivo,
+      consent,
+      origem: 'Bluefit',
+      data: new Date().toLocaleString('pt-BR')
+    };
+
+    try {
+      const existing = JSON.parse(localStorage.getItem('you_crm') || '[]');
+      existing.push(record);
+      localStorage.setItem('you_crm', JSON.stringify(existing));
+    } catch(e) {}
+
+    // Also send to window.opener or parent if inside iframe
+    try {
+      window.parent.postMessage({ type: 'you_cadastro', data: record }, '*');
+    } catch(e) {}
+
+    // Show success
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('nomeConfirm').textContent = nome.split(' ')[0];
+    document.getElementById('ticketNum').textContent = '#' + record.ticket;
+    document.getElementById('successWrap').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
